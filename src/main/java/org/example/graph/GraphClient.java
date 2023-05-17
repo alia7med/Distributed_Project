@@ -2,11 +2,7 @@ package org.example.graph;
 
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Random;
 import java.io.IOException;
 import java.util.logging.*;
@@ -15,33 +11,26 @@ import java.util.logging.*;
 public class GraphClient {
     private static Logger logger;
 
-    static {
-        try {
-            logger = startLogger();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     public static void main(String[] args) throws IOException, NotBoundException, InterruptedException {
-        Registry registry = LocateRegistry.getRegistry("localhost",1099);
-        DyGraphInterface stub = (DyGraphInterface) registry.lookup("Update");
+        logger = startLogger(args.length > 0 ? Integer.parseInt(args[0]) : 0);
+        //GraphService graphService = (GraphService) Naming.lookup("GraphService");
         Random random = new Random();
+        int numOfBatches = 0;
 
-        while (true) {
-            List<char[]> batch = generateBatch(random);
-            char[][] batchArray = batch.toArray(new char[batch.size()][]);
+        while (numOfBatches < 10) {
+            ArrayList<String> batch = generateBatch(random);
 
-            //int[] results = graphService.executeBatch(batchArray);
+            //int[] results = graphService.executeBatch(batch);
 
             //logResults(results);
 
-            Thread.sleep(random.nextInt(10000));
+            Thread.sleep(random.nextInt(10));
+            numOfBatches++;
         }
     }
 
-    private static List<char[]> generateBatch(Random random) {
-        List<char[]> batch = new ArrayList<>();
+    private static ArrayList<String> generateBatch(Random random) {
+        ArrayList<String> batch = new ArrayList<>();
 
         int numOperations = random.nextInt(10) + 1; // at least 1 operation per batch
         int writePercentage = random.nextInt(101); // percentage of operations that are writes
@@ -62,18 +51,19 @@ public class GraphClient {
             int from = random.nextInt(10);
             int to = random.nextInt(10);
 
-            batch.add(new char[] { op, Character.forDigit(from, 10), Character.forDigit(to, 10) });
+            String operationString = String.format("%c %d %d", op, from, to);
+            batch.add(operationString);
         }
 
-        batch.add(new char[] { 'F', ' ', ' ' }); // signal end of batch
+        batch.add("F 0 0"); // signal end of batch
 
         logBatch(batch);
         return batch;
     }
 
-    private static Logger startLogger() throws IOException {
+    private static Logger startLogger(int clientID) throws IOException {
         Logger logger = Logger.getLogger("MyLogger");
-        FileHandler fileHandler = new FileHandler("log.txt");
+        FileHandler fileHandler = new FileHandler("log"+clientID+".txt");
         SimpleFormatter formatter = new SimpleFormatter() {
             @Override
             public synchronized String format(LogRecord record) {
@@ -85,9 +75,9 @@ public class GraphClient {
         return logger;
     }
 
-    private static void logBatch(List<char[]> batch) {
-        for (char[] arr : batch) {
-            logger.logp(Level.INFO, "", "",  Arrays.toString(arr));
+    private static void logBatch(ArrayList<String> batch) {
+        for (String s : batch) {
+            logger.logp(Level.INFO, "", "", s);
         }
     }
 
@@ -98,3 +88,4 @@ public class GraphClient {
         }
     }
 }
+
