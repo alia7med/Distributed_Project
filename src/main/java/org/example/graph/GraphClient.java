@@ -1,3 +1,5 @@
+package org.example.graph;
+
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.util.ArrayList;
