@@ -1,8 +1,10 @@
+package org.example.graph;
+
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 
-public class DyGraph extends UnicastRemoteObject implements DyGraphInterface{
+public class DyGraph extends UnicastRemoteObject implements DyGraphInterface {
 
 
     protected DyGraph() throws RemoteException {

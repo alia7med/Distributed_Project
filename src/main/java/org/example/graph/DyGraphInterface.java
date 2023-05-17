@@ -1,3 +1,5 @@
+package org.example.graph;
+
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
