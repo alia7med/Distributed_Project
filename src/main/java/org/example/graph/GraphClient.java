@@ -15,16 +15,13 @@ public class GraphClient {
     public static void main(String[] args) throws IOException, NotBoundException, InterruptedException {
         logger = startLogger(args.length > 0 ? Integer.parseInt(args[0]) : 0);
         Registry registry = LocateRegistry.getRegistry("localhost",1099);
-        DyGraphInterface stub = (DyGraphInterface) registry.lookup("Update");
+        DyGraphInterface graphService = (DyGraphInterface) registry.lookup("Update");
         Random random = new Random();
         int numOfBatches = 0;
-
         while (numOfBatches < 10) {
             ArrayList<String> batch = generateBatch(random);
-
-            //int[] results = graphService.executeBatch(batch);
-
-            //logResults(results);
+            ArrayList<Integer>  results = graphService.update(batch);
+            logResults(results);
 
             Thread.sleep(random.nextInt(10));
             numOfBatches++;
@@ -83,7 +80,7 @@ public class GraphClient {
         }
     }
 
-    private static void logResults(int[] results) {
+    private static void logResults(ArrayList<Integer>  results) {
         logger.logp(Level.INFO, "", "", "*** Results ***");
         for (int i : results) {
             logger.logp(Level.INFO, "", "", Integer.toString(i));
