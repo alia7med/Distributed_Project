@@ -1,7 +1,8 @@
 package org.example.graph;
 
-import java.rmi.Naming;
 import java.rmi.NotBoundException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.util.ArrayList;
 import java.util.Random;
 import java.io.IOException;
@@ -13,7 +14,8 @@ public class GraphClient {
 
     public static void main(String[] args) throws IOException, NotBoundException, InterruptedException {
         logger = startLogger(args.length > 0 ? Integer.parseInt(args[0]) : 0);
-        //GraphService graphService = (GraphService) Naming.lookup("GraphService");
+        Registry registry = LocateRegistry.getRegistry("localhost",1099);
+        DyGraphInterface stub = (DyGraphInterface) registry.lookup("Update");
         Random random = new Random();
         int numOfBatches = 0;
 
