@@ -17,7 +17,18 @@ public class DyGraph extends UnicastRemoteObject implements DyGraphInterface {
 
     @Override
     public ArrayList<Integer> update(ArrayList<String> operations) throws RemoteException {
-        return null;
+        ArrayList<Integer> queryResults = new ArrayList<>();
+        for(String operationLine: operations)
+        {
+            String[] operation = operationLine.split(" ");
+            if(operation[0] == "A")
+                add(operation[1],operation[2]);
+            else if(operation[0] == "D")
+                delete(operation[1],operation[2]);
+            else if(operation[0] == "Q")
+                queryResults.add(query(operation[1],operation[2]));
+        }
+        return queryResults;
     }
 
     @Override
@@ -26,7 +37,7 @@ public class DyGraph extends UnicastRemoteObject implements DyGraphInterface {
     }
 
     @Override
-    public void remove(String node1, String node2) {
+    public void delete(String node1, String node2) {
 
     }
 

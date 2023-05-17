@@ -9,6 +9,6 @@ public interface DyGraphInterface extends Remote {
     String sayHello() throws RemoteException;
     ArrayList<Integer> update(ArrayList<String> operations) throws RemoteException;
      void add(String node1, String node2)throws RemoteException;
-     void remove(String node1, String node2)throws RemoteException;
+     void delete(String node1, String node2)throws RemoteException;
      int query(String node1, String node2)throws RemoteException;
 }
