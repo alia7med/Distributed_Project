@@ -25,12 +25,12 @@ public class Server{
     }
 
     private static ArrayList<String> getEdges(){
-        String fileName = "/home/fareswaheed/environment/Distributed_Project/src/main/java/org/example/graph/edges.txt";
+        String fileName = "D:\\aly\\AACurrSemster\\Distributed Systems\\Distributed_Project\\src\\main\\java\\org\\example\\graph\\edges.txt";
         ArrayList<String> lines = new ArrayList<String>();
         try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
             String line;
             while ((line = br.readLine()) != null) {
-                if(line != "S")
+                if(!line.equals("S"))
                     lines.add(line);
             }
         } catch (IOException e) {

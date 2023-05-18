@@ -4,6 +4,7 @@ import java.rmi.NotBoundException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 import java.io.IOException;
 import java.util.logging.*;
@@ -22,9 +23,10 @@ public class GraphClient {
         while (numOfBatches < 10) {
             ArrayList<String> batch = generateBatch(random);
             ArrayList<Integer>  results = graphService.update(batch , ""+clientID);
-            logResults(results);
-
-            Thread.sleep(random.nextInt(10));
+            //logResults(results);
+            for(int i : results)
+                System.out.println("Result : "+ i);
+            Thread.sleep(random.nextInt(10000));
             numOfBatches++;
         }
     }
@@ -32,7 +34,7 @@ public class GraphClient {
     private static ArrayList<String> generateBatch(Random random) {
         ArrayList<String> batch = new ArrayList<>();
 
-        int numOperations = random.nextInt(10) + 1; // at least 1 operation per batch
+        int numOperations = random.nextInt(100) + 1; // at least 1 operation per batch
         int writePercentage = random.nextInt(101); // percentage of operations that are writes
         int numWrites = (int) Math.round(numOperations * writePercentage / 100.0);
 

@@ -69,7 +69,8 @@ public class Graph {
     public int query(int start_node, int end_node){
         if(start_node == end_node && adj_list.containsKey(start_node))
             return 0;
-
+        if( !(adj_list.containsKey(start_node) && adj_list.containsKey(end_node)))
+            return -1;
         return BFS(start_node,end_node);
     }
 }

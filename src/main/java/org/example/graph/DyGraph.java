@@ -28,11 +28,11 @@ public class DyGraph extends UnicastRemoteObject implements DyGraphInterface {
         for(String operationLine: operations)
         {
             String[] operation = operationLine.split(" ");
-            if(operation[0] == "A")
+            if(operation[0].equals("A"))
                 add(operation[1],operation[2]);
-            else if(operation[0] == "D")
+            else if(operation[0].equals("D"))
                 delete(operation[1],operation[2]);
-            else if(operation[0] == "Q")
+            else if(operation[0].equals("Q"))
                 queryResults.add(query(operation[1],operation[2]));
         }
         return queryResults;
