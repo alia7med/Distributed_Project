@@ -5,13 +5,13 @@ import java.util.ArrayList;
 
 public class Test {
     public static void main(String[] args) {
-        ArrayList<graph.edge> edges= new ArrayList<>();
-        edges.add(new graph.edge(1,2));
-        edges.add(new graph.edge(2,3));
-        edges.add(new graph.edge(3,1));
-        edges.add(new graph.edge(4,1));
-        edges.add(new graph.edge(2,4));
-         graph g = new graph(edges);
+        ArrayList<Graph.Edge> Edges = new ArrayList<>();
+        Edges.add(new Graph.Edge(1,2));
+        Edges.add(new Graph.Edge(2,3));
+        Edges.add(new Graph.Edge(3,1));
+        Edges.add(new Graph.Edge(4,1));
+        Edges.add(new Graph.Edge(2,4));
+         Graph g = new Graph(Edges);
          /** Test batch one from pdf **/
         System.out.println(g.query(1,3));
         g.add(4,5);

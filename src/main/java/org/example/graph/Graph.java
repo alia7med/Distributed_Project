@@ -3,23 +3,23 @@ package org.example.graph;
 
 import java.util.*;
 
-public class graph {
+public class Graph {
 
-    public static class edge{
+    public static class Edge {
         public int start_node;
         public int end_node;
 
-        public edge(int start_node, int end_node) {
+        public Edge(int start_node, int end_node) {
             this.start_node = start_node;
             this.end_node = end_node;
         }
     }
 
     private HashMap<Integer, HashSet<Integer>> adj_list;
-    public graph(ArrayList<edge> edges) {
+    public Graph(ArrayList<Edge> Edges) {
         adj_list = new HashMap<>();
-        for(int i = 0 ; i < edges.size();i ++){
-            add(edges.get(i).start_node, edges.get(i).end_node);
+        for(int i = 0; i < Edges.size(); i ++){
+            add(Edges.get(i).start_node, Edges.get(i).end_node);
         }
     }
 

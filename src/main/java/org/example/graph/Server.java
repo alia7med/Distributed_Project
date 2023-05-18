@@ -13,7 +13,7 @@ public class Server{
         ArrayList<String> edges = getEdges();
         System.out.println(edges.get(0));
         try {
-            DyGraphInterface obj = new DyGraph();
+            DyGraphInterface obj = new DyGraph(edges);
             Registry registry = LocateRegistry.createRegistry(1099);
             registry.bind("Update", obj);
             System.out.println("Server ready");

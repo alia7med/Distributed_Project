@@ -6,7 +6,7 @@ import java.rmi.registry.Registry;
 import java.util.ArrayList;
 import java.util.Random;
 import java.io.IOException;
-import java.util.logging.*;
+import java.util.logging.*; 
 
 
 public class GraphClient {

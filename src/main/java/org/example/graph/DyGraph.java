@@ -5,9 +5,15 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 
 public class DyGraph extends UnicastRemoteObject implements DyGraphInterface {
+    private Graph graph;
 
-
-    protected DyGraph() throws RemoteException {
+    protected DyGraph(ArrayList<String> edgesLines) throws RemoteException {
+        ArrayList<Graph.Edge> edges = new ArrayList<>();
+        for (String edge: edgesLines) {
+            String[] nodes = edge.split(" ");
+            edges.add(new Graph.Edge(Integer.parseInt(nodes[0]), Integer.parseInt(nodes[1])));
+        }
+        graph = new Graph(edges);
     }
 
     @Override
@@ -33,16 +39,16 @@ public class DyGraph extends UnicastRemoteObject implements DyGraphInterface {
 
     @Override
     public void add(String node1, String node2) {
-
+        graph.add(Integer.parseInt(node1), Integer.parseInt(node2));
     }
 
     @Override
     public void delete(String node1, String node2) {
-
+        graph.delete(Integer.parseInt(node1), Integer.parseInt(node2));
     }
 
     @Override
     public int query(String node1, String node2) {
-        return 0;
+        return graph.query(Integer.parseInt(node1), Integer.parseInt(node2));
     }
 }
