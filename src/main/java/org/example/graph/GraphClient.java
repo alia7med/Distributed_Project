@@ -6,21 +6,22 @@ import java.rmi.registry.Registry;
 import java.util.ArrayList;
 import java.util.Random;
 import java.io.IOException;
-import java.util.logging.*; 
+import java.util.logging.*;
 
 
 public class GraphClient {
     private static Logger logger;
 
     public static void main(String[] args) throws IOException, NotBoundException, InterruptedException {
-        logger = startLogger(args.length > 0 ? Integer.parseInt(args[0]) : 0);
+        int clientID = args.length > 0 ? Integer.parseInt(args[0]) : 0;
+        logger = startLogger(clientID);
         Registry registry = LocateRegistry.getRegistry("localhost",1099);
         DyGraphInterface graphService = (DyGraphInterface) registry.lookup("Update");
         Random random = new Random();
         int numOfBatches = 0;
         while (numOfBatches < 10) {
             ArrayList<String> batch = generateBatch(random);
-            ArrayList<Integer>  results = graphService.update(batch);
+            ArrayList<Integer>  results = graphService.update(batch , ""+clientID);
             logResults(results);
 
             Thread.sleep(random.nextInt(10));

@@ -17,12 +17,7 @@ public class DyGraph extends UnicastRemoteObject implements DyGraphInterface {
     }
 
     @Override
-    public String sayHello() throws RemoteException {
-        return null;
-    }
-
-    @Override
-    public ArrayList<Integer> update(ArrayList<String> operations) throws RemoteException {
+    public ArrayList<Integer> update(ArrayList<String> operations, String clientID) throws RemoteException {
         ArrayList<Integer> queryResults = new ArrayList<>();
         for(String operationLine: operations)
         {

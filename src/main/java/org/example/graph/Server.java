@@ -11,12 +11,13 @@ public class Server{
 
     public static void main(String args[]) {
         ArrayList<String> edges = getEdges();
-        System.out.println(edges.get(0));
         try {
             DyGraphInterface obj = new DyGraph(edges);
             Registry registry = LocateRegistry.createRegistry(1099);
-            registry.bind("Update", obj);
-            System.out.println("Server ready");
+            synchronized (obj) {
+                registry.bind("Update", obj);
+            }
+            System.out.println("R");
         } catch (Exception e) {
             System.err.println("Server exception: " + e.toString());
             e.printStackTrace();
