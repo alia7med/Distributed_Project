@@ -23,8 +23,10 @@ public class DyGraph extends UnicastRemoteObject implements DyGraphInterface {
     }
 
     @Override
-    public ArrayList<Integer> update(ArrayList<String> operations, String clientID) throws RemoteException {
-        logger.logp(Level.INFO,"","", "Client" + clientID);
+    public ArrayList<Integer> update(ArrayList<String> operations/**, String clientID**/) throws RemoteException {
+        //logger.logp(Level.INFO,"","", "Client" + clientID);
+        // delete below
+        logger.logp(Level.INFO,"","", "Client" + "");
         ArrayList<Integer> queryResults = new ArrayList<>();
         for(String operationLine: operations)
         {
