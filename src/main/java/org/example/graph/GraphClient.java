@@ -4,7 +4,7 @@ import java.rmi.NotBoundException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.Random;
 import java.io.IOException;
 import java.util.logging.*;
@@ -22,10 +22,11 @@ public class GraphClient {
         int numOfBatches = 0;
         while (numOfBatches < 10) {
             ArrayList<String> batch = generateBatch(random);
+            long startTime = System.currentTimeMillis();
             ArrayList<Integer>  results = graphService.update(batch , ""+clientID);
-            //logResults(results);
-            for(int i : results)
-                System.out.println("Result : "+ i);
+            long endTime = System.currentTimeMillis();
+            long executionTime = endTime - startTime;
+            logResults(results, batch, executionTime);
             Thread.sleep(random.nextInt(10000));
             numOfBatches++;
         }
@@ -56,6 +57,7 @@ public class GraphClient {
             String operationString = String.format("%c %d %d", op, from, to);
             batch.add(operationString);
         }
+        Collections.shuffle(batch);
 
         batch.add("F 0 0"); // signal end of batch
 
@@ -83,11 +85,20 @@ public class GraphClient {
         }
     }
 
-    private static void logResults(ArrayList<Integer>  results) {
+    private static void logResults(ArrayList<Integer> results, ArrayList<String> batch, long executionTime) {
         logger.logp(Level.INFO, "", "", "*** Results ***");
-        for (int i : results) {
-            logger.logp(Level.INFO, "", "", Integer.toString(i));
+        int index = 0;
+        for (String operation : batch) {
+            if (operation.startsWith("Q")) {
+                String[] parts = operation.split(" ");
+                int firstIndex = Integer.parseInt(parts[1]);
+                int secondIndex = Integer.parseInt(parts[2]);
+                int result = results.get(index);
+                logger.logp(Level.INFO, "", "", String.format("Q: %d --> %d    Res: %d", firstIndex, secondIndex, result));
+                index++;
+            }
         }
+        logger.logp(Level.INFO, "", "", ">>> Time Elapsed: " + executionTime + " ms");
     }
 }
 

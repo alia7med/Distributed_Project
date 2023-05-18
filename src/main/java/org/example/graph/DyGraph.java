@@ -73,12 +73,12 @@ public class DyGraph extends UnicastRemoteObject implements DyGraphInterface {
 
     private void log(String operation, String node1, String node2){
         Date date = new Date();
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss.SSS");
         String strDate= formatter.format(date);
         if(operation.equals("A"))
             logger.logp(Level.INFO,"","", "Add edge " +node1 + " -> " + node2 + " at "  + strDate);
         else if (operation.equals("D"))
-            logger.logp(Level.INFO,"","", "Remove edge between" +node1 + " and " + node2 + " at "  + strDate);
+            logger.logp(Level.INFO,"","", "Remove edge between " +node1 + " and " + node2 + " at "  + strDate);
         else if(operation.equals("Q"))
             logger.logp(Level.INFO,"","", "Query " +node1 + " to " + node2 + " at "  + strDate);
     }
