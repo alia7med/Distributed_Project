@@ -114,6 +114,15 @@ public class Graph {
             return 0;
         if( !(adj_list.containsKey(start_node) && adj_list.containsKey(end_node)))
             return -1;
-        return BFS(start_node,end_node);
+
+         return BFS(start_node,end_node);
+    }
+    public int query_variant(int start_node, int end_node){
+        if(start_node == end_node && adj_list.containsKey(start_node))
+            return 0;
+        if( !(adj_list.containsKey(start_node) && adj_list.containsKey(end_node)))
+            return -1;
+
+        return Bi_BFS(start_node,end_node);
     }
 }

@@ -10,7 +10,9 @@ import java.util.logging.*;
 
 public class DyGraph extends UnicastRemoteObject implements DyGraphInterface {
     private Graph graph;
+    private Graph exp_graph;
     private Logger logger;
+    boolean variant = false;
     protected DyGraph(ArrayList<String> edgesLines) throws IOException {
         logger = startLogger();
         ArrayList<Graph.Edge> edges = new ArrayList<>();
@@ -20,11 +22,14 @@ public class DyGraph extends UnicastRemoteObject implements DyGraphInterface {
             log("A", nodes[0],nodes[1]);
         }
         graph = new Graph(edges);
+        exp_graph = new Graph(edges);
     }
 
     @Override
-    public ArrayList<Integer> update(ArrayList<String> operations, String clientID) throws RemoteException {
+    synchronized public ArrayList<Integer>  update(ArrayList<String> operations, String clientID,
+                                                   boolean variant) throws RemoteException {
         logger.logp(Level.INFO,"","", "Client" + clientID);
+        this.variant = variant;
         ArrayList<Integer> queryResults = new ArrayList<>();
         for(String operationLine: operations)
         {
@@ -42,20 +47,33 @@ public class DyGraph extends UnicastRemoteObject implements DyGraphInterface {
 
     @Override
     public void add(String node1, String node2) {
-        graph.add(Integer.parseInt(node1), Integer.parseInt(node2));
+        if(this.variant){
+            exp_graph.add(Integer.parseInt(node1), Integer.parseInt(node2));
+        }
+        else {
+            graph.add(Integer.parseInt(node1), Integer.parseInt(node2));
+        }
         log("add", node1, node2);
     }
 
     @Override
     public void delete(String node1, String node2) {
-        graph.delete(Integer.parseInt(node1), Integer.parseInt(node2));
+        if(this.variant){
+            exp_graph.delete(Integer.parseInt(node1), Integer.parseInt(node2));
+        }
+        else {
+            graph.delete(Integer.parseInt(node1), Integer.parseInt(node2));
+        }
         log("delete", node1, node2);
     }
 
     @Override
     public int query(String node1, String node2) {
+        if(this.variant)
+            return exp_graph.query_variant(Integer.parseInt(node1),Integer.parseInt(node2));
         return graph.query(Integer.parseInt(node1), Integer.parseInt(node2));
     }
+
 
     private Logger startLogger() throws IOException {
         Logger logger = Logger.getLogger("MyLogger");

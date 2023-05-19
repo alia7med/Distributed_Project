@@ -20,14 +20,25 @@ public class GraphClient {
         DyGraphInterface graphService = (DyGraphInterface) registry.lookup("Update");
         Random random = new Random();
         int numOfBatches = 0;
-        while (numOfBatches < 10) {
+        while (numOfBatches < 1) {
             ArrayList<String> batch = generateBatch(random);
             long startTime = System.currentTimeMillis();
-            ArrayList<Integer>  results = graphService.update(batch , ""+clientID);
+            ArrayList<Integer>  results = graphService.update(batch , ""+clientID, false);
             long endTime = System.currentTimeMillis();
             long executionTime = endTime - startTime;
             logResults(results, batch, executionTime);
-            Thread.sleep(random.nextInt(10000));
+            logger.logp(Level.INFO, "", "", "Response time of BFS: " + executionTime);
+
+            Thread.sleep(random.nextInt(100));
+
+            startTime = System.currentTimeMillis();
+            results = graphService.update(batch , ""+clientID, true);
+            endTime = System.currentTimeMillis();
+            executionTime = endTime - startTime;
+            logResults(results, batch, executionTime);
+            logger.logp(Level.INFO, "", "", "Response time of Bi_Dir BFS: " + executionTime);
+            double percentage = (batch.size() - 1.0 - results.size() ) / (batch.size() - 1.0);
+            logger.logp(Level.INFO,"","","Percentage of A/D: " + percentage * 100 + "%");
             numOfBatches++;
         }
     }
@@ -36,6 +47,7 @@ public class GraphClient {
         ArrayList<String> batch = new ArrayList<>();
 
         int numOperations = random.nextInt(100) + 1; // at least 1 operation per batch
+        /** To be edited **/
         int writePercentage = random.nextInt(101); // percentage of operations that are writes
         int numWrites = (int) Math.round(numOperations * writePercentage / 100.0);
 
@@ -98,7 +110,7 @@ public class GraphClient {
                 index++;
             }
         }
-        logger.logp(Level.INFO, "", "", ">>> Time Elapsed: " + executionTime + " ms");
+        //logger.logp(Level.INFO, "", "", ">>> Time Elapsed: " + executionTime + " ms");
     }
 }
 

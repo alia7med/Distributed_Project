@@ -4,7 +4,7 @@
 num_instances=${1:-5}
 
 # Define the base command to run the Java program
-java_command="java -jar graph_client.jar"
+java_command="java -jar Distributed_Project.jar"
 
 # Loop through the number of instances and run the Java program in the background
 # shellcheck disable=SC2004
