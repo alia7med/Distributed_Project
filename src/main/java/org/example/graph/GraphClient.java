@@ -23,8 +23,7 @@ public class GraphClient {
         while (numOfBatches < 10) {
             ArrayList<String> batch = generateBatch(random);
             long startTime = System.currentTimeMillis();
-            //ArrayList<Integer>  results = graphService.update(batch , ""+clientID);
-            ArrayList<Integer>  results = graphService.update(batch );
+            ArrayList<Integer>  results = graphService.update(batch , ""+clientID);
             long endTime = System.currentTimeMillis();
             long executionTime = endTime - startTime;
             logResults(results, batch, executionTime);

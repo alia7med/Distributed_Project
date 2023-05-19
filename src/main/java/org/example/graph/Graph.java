@@ -27,6 +27,8 @@ public class Graph {
     private void add_node(int node){
         if(!adj_list.containsKey(node)){
             adj_list.put(node, new HashSet<>());
+        }
+        if(!adj_list_backward.containsKey(node)){
             adj_list_backward.put(node, new HashSet<>());
         }
     }
@@ -39,6 +41,8 @@ public class Graph {
     public void delete(int start_node, int end_node){
         if(adj_list.containsKey(start_node)){
             adj_list.get(start_node).remove(end_node);
+        }
+        if(adj_list_backward.containsKey(end_node)){
             adj_list_backward.get(end_node).remove(start_node);
         }
     }
